@@ -53,7 +53,7 @@ Most homelabs are a pile of YAML. This one is a **disciplined platform**:
 │            │ Ollama (private net)    │                           │
 │            ▼                         ▼                           │
 │  ┌─────────────────────┐   ┌─────────────────────┐               │
-│  │ edge (CT)           │   │ obs (CT)            │               │
+│  │ edge (CT)           │   │ observability (CT) │               │
 │  │ Caddy reverse proxy  │   │ Prometheus+Grafana  │               │
 │  │ :80                 │   │ :3000               │               │
 │  │ 10.10.10.122        │   │ 10.10.10.123        │               │
@@ -126,7 +126,7 @@ curl -s http://10.10.10.122/api/chat -H 'content-type: application/json' \
 | Terraform/CT provisioning | ✅ live |
 | platform (demo-api + Ollama) | ✅ running |
 | edge (Caddy) | ✅ running |
-| obs (Prometheus/Grafana) | ✅ running |
+| observability (Prometheus/Grafana) | ✅ running |
 | runner (self-hosted GH Actions) | ✅ running |
 | Ollama (co-located, CPU) | ✅ running |
 | GPU passthrough (GTX 1050 Ti VM) | 📄 provisioned via Terraform & documented; next step |
