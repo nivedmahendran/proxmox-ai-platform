@@ -22,7 +22,7 @@
 │            │ Ollama (private net)    │                           │
 │            ▼                         ▼                           │
 │  ┌─────────────────────┐   ┌─────────────────────┐               │
-│  │ edge (CT)           │   │ obs (CT)            │               │
+│  │ edge (CT)           │   │ observability (CT) │               │
 │  │ Caddy reverse proxy  │   │ Prometheus+Grafana  │               │
 │  │ :80                 │   │ :3000               │               │
 │  │ 10.10.10.122        │   │ 10.10.10.123        │               │
@@ -42,7 +42,7 @@
 | `ai-infer` | VM 110 | Ubuntu 24.04 + NVIDIA + Ollama | 4 vCPU, 8 GB, 60 GB, GPU passthrough | 10.10.10.120 |
 | `platform` | CT 111 | Docker + demo-api | 2 vCPU, 2 GB, 20 GB | 10.10.10.121 |
 | `edge` | CT 112 | Caddy reverse proxy | 1 vCPU, 1 GB, 8 GB | 10.10.10.122 |
-| `obs` | CT 113 | Prometheus + Grafana | 2 vCPU, 2 GB, 15 GB | 10.10.10.123 |
+| `observability` | CT 113 | Prometheus + Grafana | 2 vCPU, 2 GB, 15 GB | 10.10.10.123 |
 | `runner` | CT 114 | self-hosted GitHub Actions runner | 2 vCPU, 2 GB, 20 GB | 10.10.10.124 |
 
 ## Networking
