@@ -123,10 +123,15 @@ curl -s http://10.10.10.122/api/chat -H 'content-type: application/json' \
 
 | Component | State |
 |---|---|
-| Terraform guests | ✅ provisioned |
-| ai-infer (Ollama + GPU) | ✅ running |
-| platform (demo-api) | ✅ running |
+| Terraform/CT provisioning | ✅ live |
+| platform (demo-api + Ollama) | ✅ running |
 | edge (Caddy) | ✅ running |
 | obs (Prometheus/Grafana) | ✅ running |
 | runner (self-hosted GH Actions) | ✅ running |
-| CI/CD pipeline | ✅ green |
+| Ollama (co-located, CPU) | ✅ running |
+| GPU passthrough (GTX 1050 Ti VM) | 📄 provisioned via Terraform & documented; next step |
+
+> **Note:** The live demo currently runs **Ollama co-located with the demo-api**
+> (CPU) so the API is fully functional today. The GPU-accelerated `ai-infer`
+> VM is fully specified in `terraform/`, documented in `docs/gpu-passthrough.md`,
+> and is the recommended scale-up — attach the VMID 110 guest to see GPU inference.
