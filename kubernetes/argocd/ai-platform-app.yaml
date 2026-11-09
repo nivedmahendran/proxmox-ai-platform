@@ -1,0 +1,20 @@
+# ArgoCD App-of-Apps — the GitOps root. In the live deployment the cluster is
+# managed via Talos; this defines how the platform apps would be reconciled.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ai-platform
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/nivedmahendran/proxmox-ai-platform.git
+    targetRevision: HEAD
+    path: kubernetes/infrastructure
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ai
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
