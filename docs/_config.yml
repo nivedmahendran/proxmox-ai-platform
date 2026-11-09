@@ -3,3 +3,4 @@ plugins:
   - jekyll-remote-theme
 title: Proxmox AI Platform
 description: Self-hosted GitOps AI platform on Proxmox
+logo: /docs_og.png
