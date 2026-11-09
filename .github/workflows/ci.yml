@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    paths:
+      - "ai-inference/**"
+      - ".github/workflows/ci.yml"
+  pull_request:
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ai-inference/gateway/requirements.txt
+          pip install pytest httpx
+
+      - name: Syntax / import check
+        run: python -c "import ast; ast.parse(open('ai-inference/gateway/app/main.py').read())"
+
+      - name: Unit smoke test
+        run: |
+          python - <<'EOF'
+          # Simulate the health logic without a live Ollama
+          from fastapi.testclient import TestClient
+          import sys
+          sys.path.insert(0, "ai-inference/gateway")
+          from app.main import app
+          c = TestClient(app)
+          r = c.get("/api/health")
+          assert r.status_code == 200, r.text
+          print("health endpoint OK:", r.json())
+          EOF
+
+  build-image:
+    needs: lint-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: ai-inference/gateway
+          push: false
+          tags: ghcr.io/nivedmahendran/proxmox-ai-demo-api:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
