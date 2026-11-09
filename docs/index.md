@@ -1,6 +1,8 @@
 ---
 layout: default
 title: Proxmox AI Platform
+description: Self-hosted GitOps AI platform on Proxmox
+image: /docs_og.png
 ---
 # Proxmox AI Platform
 
