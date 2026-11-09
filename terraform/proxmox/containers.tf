@@ -2,7 +2,7 @@ locals {
   ct = {
     platform = { id = 111, ip = "10.10.10.121", cores = 2, memory = 2048, disk = 20, tmpl = "local:vztmpl/debian-13-standard_13.1-2_amd64.tar.zst" }
     edge     = { id = 112, ip = "10.10.10.122", cores = 1, memory = 1024, disk = 8,  tmpl = "local:vztmpl/debian-13-standard_13.1-2_amd64.tar.zst" }
-    obs      = { id = 113, ip = "10.10.10.123", cores = 2, memory = 2048, disk = 15, tmpl = "local:vztmpl/debian-13-standard_13.1-2_amd64.tar.zst" }
+    observability = { id = 113, ip = "10.10.10.123", cores = 2, memory = 2048, disk = 15, tmpl = "local:vztmpl/debian-13-standard_13.1-2_amd64.tar.zst" }
     runner   = { id = 114, ip = "10.10.10.124", cores = 2, memory = 2048, disk = 20, tmpl = "local:vztmpl/debian-13-standard_13.1-2_amd64.tar.zst" }
   }
 }
