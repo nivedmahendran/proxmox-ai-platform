@@ -1,0 +1,15 @@
+# Talos worker patch — for nodes 10.10.10.203 / .204.
+machine:
+  network:
+    interfaces:
+      - interface: eth0
+        addresses:
+          - 10.10.10.203/22
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.10.10.1
+    nameservers:
+      - 10.10.10.1
+      - 1.1.1.1
+  install:
+    disk: /dev/sda
