@@ -19,7 +19,7 @@ Steps to reproduce the behavior:
 What you expected to happen.
 
 **Environment (please complete)**
-- Guest / component: (e.g. platform, edge, obs, runner, Terraform, workflow)
+- Guest / component: (e.g. platform, edge, observability, runner, Terraform, workflow)
 - Proxmox node: pve
 - Workflow / script: (e.g. deploy.yml, provision.sh)
 
