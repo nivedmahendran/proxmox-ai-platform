@@ -23,7 +23,7 @@ and a real GPU/LLM workload.
 |---|---|
 | `platform` (CT 111) | demo-api (FastAPI) + Ollama |
 | `edge` (CT 112) | Caddy reverse proxy |
-| `obs` (CT 113) | Prometheus + Grafana |
+| `observability` (CT 113) | Prometheus + Grafana |
 | `runner` (CT 114) | self-hosted GitHub Actions runner |
 
 ## Repo
