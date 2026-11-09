@@ -6,6 +6,7 @@ on:
     paths:
       - "ai-inference/**"
       - ".github/workflows/deploy.yml"
+  workflow_dispatch:
 
 # Self-hosted runner on the private lab network — this is the only way to
 # reach 10.10.10.x from CI (GitHub-hosted runners cannot).
@@ -16,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Deploy via SSH
+      - name: Sync app to platform and rebuild
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.PLATFORM_HOST }}        # 10.10.10.121
@@ -25,10 +26,29 @@ jobs:
           port: 22
           script: |
             set -e
-            cd /opt/demo-api || exit 1
-            # Copy the new app code
-            rsync -a --delete /tmp/repo/ai-inference/gateway/ /opt/demo-api/
-            # Rebuild & restart
+            mkdir -p /opt/demo-api
+
+      - name: rsync gateway code
+        env:
+          PLATFORM_HOST: ${{ secrets.PLATFORM_HOST }}
+          PLATFORM_SSH_KEY: ${{ secrets.PLATFORM_SSH_KEY }}
+        run: |
+          umask 077
+          echo "$PLATFORM_SSH_KEY" > /tmp/deploy_key
+          chmod 600 /tmp/deploy_key
+          rsync -az --delete -e "ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no" \
+            "ai-inference/gateway/" "root@${PLATFORM_HOST}:/opt/demo-api/"
+
+      - name: Rebuild & restart
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.PLATFORM_HOST }}
+          username: root
+          key: ${{ secrets.PLATFORM_SSH_KEY }}
+          port: 22
+          script: |
+            set -e
+            cd /opt/demo-api
             docker compose up -d --build
-            sleep 3
+            sleep 4
             docker compose ps
