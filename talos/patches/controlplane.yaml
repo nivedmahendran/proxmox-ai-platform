@@ -1,0 +1,19 @@
+# Talos control-plane patch — applied via `talosctl machineconfig patch`.
+# This documents the live control plane at 10.10.10.200.
+machine:
+  network:
+    interfaces:
+      - interface: eth0
+        addresses:
+          - 10.10.10.200/22
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.10.10.1
+    nameservers:
+      - 10.10.10.1
+      - 1.1.1.1
+  install:
+    disk: /dev/sda
+cluster:
+  controlPlane:
+    endpoint: https://10.10.10.200:6443
