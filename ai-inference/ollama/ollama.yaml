@@ -1,0 +1,50 @@
+# Ollama deployment (in-cluster option). The live demo runs Ollama on the
+# ai-infer VM for GPU passthrough; this manifest is provided for the GitOps
+# / cluster variant and documents the same service contract.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ollama
+  namespace: ai
+  labels:
+    app: ollama
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ollama
+  template:
+    metadata:
+      labels:
+        app: ollama
+    spec:
+      containers:
+        - name: ollama
+          image: ollama/ollama:latest
+          ports:
+            - containerPort: 11434
+          env:
+            - name: OLLAMA_HOST
+              value: "0.0.0.0:11434"
+          volumeMounts:
+            - name: ollama
+              mountPath: /root/.ollama
+          resources:
+            limits:
+              nvidia.com/gpu: 1
+      volumes:
+        - name: ollama
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ollama
+  namespace: ai
+spec:
+  selector:
+    app: ollama
+  ports:
+    - port: 11434
+      targetPort: 11434
