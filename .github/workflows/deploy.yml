@@ -1,0 +1,34 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "ai-inference/**"
+      - ".github/workflows/deploy.yml"
+
+# Self-hosted runner on the private lab network — this is the only way to
+# reach 10.10.10.x from CI (GitHub-hosted runners cannot).
+jobs:
+  deploy-demo-api:
+    runs-on: self-hosted
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.PLATFORM_HOST }}        # 10.10.10.121
+          username: root
+          key: ${{ secrets.PLATFORM_SSH_KEY }}
+          port: 22
+          script: |
+            set -e
+            cd /opt/demo-api || exit 1
+            # Copy the new app code
+            rsync -a --delete /tmp/repo/ai-inference/gateway/ /opt/demo-api/
+            # Rebuild & restart
+            docker compose up -d --build
+            sleep 3
+            docker compose ps
