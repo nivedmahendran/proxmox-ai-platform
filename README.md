@@ -119,6 +119,11 @@ curl -s http://10.10.10.122/api/chat -H 'content-type: application/json' \
 - [Runbooks](docs/runbooks.md)
 - [Decision log](docs/decisions.md)
 
+## ✍️ Writing
+
+I write about this platform and platform engineering on
+[Substack](https://linuxtips.substack.com).
+
 ## Status
 
 | Component | State |
