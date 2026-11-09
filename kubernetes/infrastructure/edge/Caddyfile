@@ -1,0 +1,16 @@
+# Caddy reverse proxy on the edge container.
+# Forward public traffic to the demo-api container on the platform guest.
+{
+  email admin@example.com
+  auto_https off
+}
+
+:80 {
+  handle /api/* {
+    reverse_proxy 10.10.10.121:8000
+  }
+
+  handle {
+    respond "Proxmox AI Platform — see /api/health" 200
+  }
+}
