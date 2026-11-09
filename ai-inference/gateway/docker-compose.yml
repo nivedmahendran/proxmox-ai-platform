@@ -1,4 +1,10 @@
 services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+    volumes:
+      - ollama:/root/.ollama
   demo-api:
     build: .
     image: ghcr.io/nivedmahendran/proxmox-ai-demo-api:latest
@@ -7,9 +13,14 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - OLLAMA_URL=http://10.10.10.120:11434
+      # Co-located Ollama (swap for the GPU VM URL when ai-infer is attached)
+      - OLLAMA_URL=http://ollama:11434
+    depends_on:
+      - ollama
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
       interval: 30s
       timeout: 5s
       retries: 3
+volumes:
+  ollama:
